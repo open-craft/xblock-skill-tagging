@@ -12,6 +12,11 @@ from openedx_filters import PipelineStep
 logger = logging.getLogger(__name__)
 DEFAULT_PROBABILITY = 0.5
 
+def resource_string(path):
+    """Handy helper for getting resources from our kit."""
+    data = pkg_resources.resource_string(__name__, path)
+    return data.decode("utf8")
+
 
 class AddVerticalBlockSkillVerificationSection(PipelineStep):
     """
@@ -30,11 +35,6 @@ class AddVerticalBlockSkillVerificationSection(PipelineStep):
             }
         }
     """
-    def resource_string(self, path):
-        """Handy helper for getting resources from our kit."""
-        data = pkg_resources.resource_string(__name__, path)
-        return data.decode("utf8")
-
     def fetch_related_skills(self, block):
         """Checks `has_verified_tags` and fetchs related skills."""
         has_verified_tags = getattr(block, "has_verified_tags", None)
@@ -59,10 +59,10 @@ class AddVerticalBlockSkillVerificationSection(PipelineStep):
         if not skills or not self.should_run_filter():
             return {"block": block, "fragment": fragment, "context": context, "view": view}
         verify_tags_url = block.runtime.handler_url(block, "verify_tags")
-        html = self.resource_string("static/tagging.html")
-        css = self.resource_string("static/tagging.css")
-        js = self.resource_string("static/tagging.js")
-        image = self.resource_string("static/brainstorming.svg")
+        html = resource_string("static/tagging.html")
+        css = resource_string("static/tagging.css")
+        js = resource_string("static/tagging.js")
+        image = resource_string("static/brainstorming.svg")
         data = {
             "skills": skills,
             "verify_tags_url": verify_tags_url,
@@ -74,3 +74,40 @@ class AddVerticalBlockSkillVerificationSection(PipelineStep):
         tags_div = template.render(context)
         fragment.content = f"{fragment.content}{tags_div}"
         return {"block": block, "fragment": fragment, "context": context, "view": view}
+
+
+class AddVideoBlockSkillVerificationComponent(PipelineStep):
+    """
+    Adds verification component to video blocks.
+
+    Example Usage:
+
+    .. code-block::
+
+        "OPENEDX_FILTERS_CONFIG": {
+            "org.openedx.learning.vertical_block.render.started.v1": {
+                "fail_sliently": false,
+                "pipeline": [
+                    "skill_tagging.pipeline.AddVideoBlockSkillVerificationComponent"
+                ]
+            }
+        }
+    """
+    def run_filter(self, block, context):  # pylint: disable=arguments-differ
+        """Pipeline Step implementing the Filter"""
+        usage_id = block.scope_ids.usage_id
+        if usage_id.block_type != "video":
+            return {"block": block, "context": context}
+        element_id = f"{usage_id.block_type}_{usage_id.block_id}"
+        data = {"element_id": element_id}
+        def wrapper(fn):
+            def wrapped(_context):
+                fragment = fn(_context)
+                js = resource_string("static/video_tagging.js")
+                template = Template(js)
+                context = Context(data)
+                fragment.add_javascript(template.render(context))
+                return fragment
+            return wrapped
+        block.student_view = wrapper(block.student_view)
+        return {"block": block, "context": context}

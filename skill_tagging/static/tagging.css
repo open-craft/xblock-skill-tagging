@@ -14,13 +14,13 @@
     top: 0;
     left: 0;
     background: black;
-    color: white;
     z-index: 0;
 }
 
 .tag-verification-video * {
     text-align: center;
     justify-content: center;
+    color: white;
 }
 
 .tag-verification-container {
@@ -43,20 +43,35 @@
     margin-bottom: 20px;
 }
 
-.tag-verification-container button {
+.tag-verification-vertical button {
     background: #00262B;
+    color: #FFFFFF;
+}
+
+.tag-verification-video button {
+    background: white;
+    color: #00262B;
+}
+
+.tag-verification-container button {
     padding: 10px 16px;
     font-weight: 500;
     font-size: 18px;
     line-height: 24px;
-    color: #FFFFFF;
     box-shadow: none;
 }
 
-.tag-verification-container button:hover, .tag-verification-container button:focus {
+.tag-verification-vertical button:hover, .tag-verification-vertical button:focus {
     background: #00262B;
     color: #FFFFFF;
     border: 1px solid #00262B;
+    box-shadow: none;
+}
+
+.tag-verification-video button:hover, .tag-verification-video button:focus {
+    background: #065683;
+    color: white;
+    border: 1px solid #065683;
     box-shadow: none;
 }
 
@@ -90,8 +105,14 @@
     line-height: 24px;
 }
 
-.tag-verification-chip.tag-verification-chip-hover:hover {
+.tag-verification-vertical .tag-verification-chip.tag-verification-chip-hover:hover {
     background: #ccc;
+}
+
+.tag-verification-video .tag-verification-chip.tag-verification-chip-hover:hover {
+    background: #065683;
+    color: white;
+    border: 1px solid white;
 }
 
 .tag-verification-chip-clickable {
@@ -107,12 +128,24 @@
     opacity: 0.00000;
 }
 
-.tag-verification-tags-container input[type=checkbox]:checked + label {
+.tag-verification-vertical .tag-verification-tags-container input[type=checkbox]:checked + label {
     border: 1px solid #00262B;
 }
 
-.tag-verification-tags-container input[type=checkbox]:focus + label {
+.tag-verification-vertical .tag-verification-tags-container input[type=checkbox]:focus + label {
     background: #ccc;
+}
+
+.tag-verification-video .tag-verification-tags-container input[type=checkbox]:checked + label {
+    background: #065683;
+    color: white;
+    border: 1px solid #065683;
+}
+
+.tag-verification-video .tag-verification-tags-container input[type=checkbox]:focus + label {
+    background: #065683;
+    color: white;
+    border: 1px solid white;
 }
 
 .tag-verification-none-selected-container {

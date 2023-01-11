@@ -1,9 +1,32 @@
-.tag-verification-container {
+.tag-verification-vertical {
     margin-top: 20px;
     background: #F2F0EF;
-    border-radius: 6px;
     padding: 70px 65px;
+}
+
+.tag-verification-video {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: black;
+    color: white;
+    z-index: 999;
+}
+
+.tag-verification-video * {
+    text-align: center;
+    justify-content: center;
+}
+
+.tag-verification-container {
+    border-radius: 6px;
+    display: flex;
+    box-sizing: border-box;
 }
 
 @media (max-width: 767px) {

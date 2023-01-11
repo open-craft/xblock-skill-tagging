@@ -10,8 +10,14 @@
         });
     });
   }
+  const $videoBlock = $("#{{block_type}}_{{ block_id }}")
+  $videoBlock.classChange((el, newClass) => console.log(`#${el.id} had its class updated to: ${newClass}`));
 
-  const $foo = $("#{{ element_id }}").classChange((el, newClass) => console.log(`#${el.id} had its class updated to: ${newClass}`));
+  const $verificationDiv = $("<div>", {id: "verification-{{ block_id }}"}).html(`
+{% include tag_verification_template %}
+`);
+
+  $verificationDiv.appendTo($videoBlock.find(".video-wrapper"));
 
   return {};
 }(window.jQuery));

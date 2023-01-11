@@ -1,8 +1,14 @@
+{% load i18n %}
+
 <div class="tag-verification-form-container">
-    <h1>What did you learn?</h1>
+    <h1>{% translate "What did you learn?" %}</h1>
     <p>
-        Congratulations, you've reached the end of this unit!<br>
-        Help future students by selecting the skills or subjects you learned from this unit.
+        {% if block_type == 'vertical' %}
+            {% translate "Congratulations, you've reached the end of this unit!" %}<br>
+            {% translate "Help future students by selecting the skills or subjects you learned from this unit." %}
+        {% elif block_type == 'video' %}
+            {% translate "Help future students by selecting the skills or subjects you learned from this video." %}
+        {% endif %}
     </p>
     <div id="tag-verification-tags-container-id-{{ block_id }}" class="tag-verification-tags-container">
         {% for skill in skills %}
@@ -18,9 +24,9 @@
         <input type="checkbox" onClick="tagVerificationOnNoneCheckboxClick(this, '{{ block_id }}')"
             id="tagVerificationUnselectAllId-{{ block_id }}" />
         <label for="tagVerificationUnselectAllId-{{ block_id }}" class="tag-verification-none-selected">
-            None of these subjects were covered
+            {% translate "None of these subjects were covered" %}
         </label>
     </div>
     <button id="tagVerificationSubmitButton-{{ block_id }}" disabled
-        onclick="tagVerificationVerifyTags('{{ verify_tags_url }}', '{{ block_id }}')">Submit</button>
+        onclick="tagVerificationVerifyTags('{{ verify_tags_url }}', '{{ block_id }}')">{% translate "Submit" %}</button>
 </div>

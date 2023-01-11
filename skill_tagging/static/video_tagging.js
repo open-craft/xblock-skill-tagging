@@ -10,14 +10,20 @@
         });
     });
   }
-  const $videoBlock = $("#{{block_type}}_{{ block_id }}")
-  $videoBlock.classChange((el, newClass) => console.log(`#${el.id} had its class updated to: ${newClass}`));
-
+  const $videoBlock = $("#{{block_type}}_{{ block_id }}");
   const $verificationDiv = $("<div>", {id: "verification-{{ block_id }}"}).html(`
 {% include tag_verification_template %}
-`);
+`).hide();
 
-  $verificationDiv.appendTo($videoBlock.find(".video-wrapper"));
+  $verificationDiv.appendTo($videoBlock.find(".video-player"));
+
+  $videoBlock.classChange((_, newClass) => {
+    if (newClass.includes("is-ended")) {
+      $verificationDiv.show();
+    } else {
+      $verificationDiv.hide();
+    }
+  });
 
   return {};
 }(window.jQuery));

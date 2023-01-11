@@ -15,7 +15,7 @@
     left: 0;
     background: black;
     color: white;
-    z-index: 999;
+    z-index: 0;
 }
 
 .tag-verification-video * {

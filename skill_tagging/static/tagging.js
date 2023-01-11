@@ -50,7 +50,7 @@ function tagVerificationVerifyTags(url, blockId) {
       tagSkillIgnoredTags.push(parseInt(checkboxes[i].value));
     }
   }
-  fetch(url + "1", {
+  fetch(url, {
     method: "POST",
     body: JSON.stringify({
       verified_skills: tagSkillVerifiedTags,
